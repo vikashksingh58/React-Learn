@@ -1,7 +1,9 @@
 .kg-item {
-  background-color: rgb(212, 157, 157) !important;
+  /* //background-color: rgb(235, 234, 234) !important; */
 }
 .kg-span {
   font-weight: 500;
-  color: #fff;
+}
+.buyButton {
+  float: right;
 }
