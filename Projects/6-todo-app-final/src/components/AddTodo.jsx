@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './AddTodo.module.css';
+import { MdAddBox } from "react-icons/md";
 
 function AddTodo({onNewItem}) {
   const [todoText,setTodoText] = useState('');
@@ -24,7 +25,7 @@ function AddTodo({onNewItem}) {
             <input type="date" value={todoDate} onChange = {handleDateChange} />
           </div>
           <div className="col-2">
-            <button className={`btn btn-success ${styles.kgButton}`} onClick={handleAddButtonClicked}>Add</button>
+            <button className={`btn btn-success ${styles.kgButton}`} onClick={handleAddButtonClicked}><MdAddBox /></button>
           </div>
         </div>
     );

@@ -1,4 +1,5 @@
 import styles from './TodoItem.module.css';
+import { MdDeleteOutline } from "react-icons/md";
 
 function TodoItem({item,onDeleteItem}) {
   
@@ -11,7 +12,9 @@ function TodoItem({item,onDeleteItem}) {
             {item.dueDate}
           </div>
           <div className="col-2">
-            <button className={`btn btn-danger ${styles.kgButton}`} onClick={()=>onDeleteItem(item.name)}>Delete</button>
+            <button className={`btn btn-danger ${styles.kgButton}`} onClick={()=>onDeleteItem(item.name)}>
+              <MdDeleteOutline />
+            </button>
           </div>
         </div>
     );
