@@ -1,0 +1,10 @@
+.kgButton {
+    min-width: 150px;
+    float: left;
+}
+.kgRow {
+    margin: 10px 0;
+}
+input {
+    width: 100%;
+}
