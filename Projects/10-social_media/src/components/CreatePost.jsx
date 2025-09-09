@@ -2,7 +2,7 @@ import { useContext, useRef } from "react";
 import { PostListContext } from "../store/post-list-store";
 
 function CreatePost() {
-  const {addPost} = useContext(PostListContext)
+  const { addPost } = useContext(PostListContext);
   const userIdElement = useRef();
   const postTitleElement = useRef();
   const postBodyElement = useRef();
@@ -23,7 +23,21 @@ function CreatePost() {
     viewsElement.current.value = "";
     tagsElement.current.value = "";
 
-    addPost(userId, postTitle, postBody, views, tags);
+    fetch("https://dummyjson.com/posts/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+          title: postTitle,
+          body: postBody,
+          views: views,
+          userId: userId,
+          tags: tags
+      }),
+    })
+      .then((res) => res.json())
+      .then((post) => addPost(post));
+
+    
   };
 
   return (
@@ -91,7 +105,7 @@ function CreatePost() {
             placeholder="Enter your tags separated by a space"
           />
         </div>
-       
+
         <button type="submit" className="btn btn-primary">
           Submit
         </button>

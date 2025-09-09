@@ -1,10 +1,10 @@
+import { useEffect } from "react";
 import { createContext, useReducer } from "react";
 
 
 export const PostListContext = createContext({
     postList: [],
     addPost: () => {},
-    addInitialPosts: () => {},
     deletePost: () => {}
 })
 
@@ -14,8 +14,6 @@ const postReducerList = (currentPostList, action) => {
     if(action.type == 'ADD_POST') {
         postList = [action.payload, ...currentPostList]
     }else if(action.type == 'ADD_POSTS') {
-        console.log(action.payload.posts);
-        
         postList = action.payload.posts; 
     }else if(action.type == 'DELETE_POST') {
         postList = currentPostList.filter( post => post.id != action.payload.id );
@@ -28,17 +26,10 @@ const postReducerList = (currentPostList, action) => {
 const PostListProvider = ({children}) => {
     const [postList, dispatchPostList] = useReducer(postReducerList, []);
 
-    const addPost = (userId, postTitle, postBody, views, tags) => {
+    const addPost = (post) => {
         dispatchPostList({
             type: "ADD_POST",
-            payload: {
-                id: Date.now(),
-                title: postTitle,
-                body: postBody,
-                views: views,
-                userId: userId,
-                tags: tags,
-            },
+            payload: post,
         });
     }
 
@@ -58,8 +49,19 @@ const PostListProvider = ({children}) => {
         })
     }
 
+    useEffect(() => {
+    const controller = new AbortController();
+    fetch('https://dummyjson.com/posts', {signal: controller.signal})
+            .then(res => res.json())
+            .then(data => addInitialPosts(data.posts))
+            .catch((err) => {
+            if(err.name !== "AbortError") throw err;
+            });
+            return () => controller.abort();
+    },[]);
+
     return (
-        <PostListContext.Provider value={{postList,addPost,deletePost,addInitialPosts}} >{children}</PostListContext.Provider>
+        <PostListContext.Provider value={{postList,addPost,deletePost}} >{children}</PostListContext.Provider>
     )
 }
 
