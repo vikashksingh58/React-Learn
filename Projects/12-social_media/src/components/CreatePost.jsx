@@ -1,49 +1,9 @@
-import { useContext, useRef } from "react";
-import { PostListContext } from "../store/post-list-store";
-import { Form, useNavigate } from "react-router-dom";
+
+import { Form, useActionData } from "react-router-dom";
 
 function CreatePost() {
-  // const { addPost } = useContext(PostListContext);
-  // const navigate = useNavigate();
-  // const userIdElement = useRef();
-  // const postTitleElement = useRef();
-  // const postBodyElement = useRef();
-  // const viewsElement = useRef();
-  // const tagsElement = useRef();
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const userId = userIdElement.current.value;
-  //   const postTitle = postTitleElement.current.value;
-  //   const postBody = postBodyElement.current.value;
-  //   const views = viewsElement.current.value;
-  //   const tags = tagsElement.current.value.split(" ");
-
-  //   userIdElement.current.value = "";
-  //   postTitleElement.current.value = "";
-  //   postBodyElement.current.value = "";
-  //   viewsElement.current.value = "";
-  //   tagsElement.current.value = "";
-
-  //   fetch("https://dummyjson.com/posts/add", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({
-  //         title: postTitle,
-  //         body: postBody,
-  //         views: views,
-  //         userId: userId,
-  //         tags: tags
-  //     }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((post) => {
-  //       addPost(post)
-  //       navigate("/")
-  //     });
-
-    
-  // };
+  const addPost = useActionData();
 
   return (
     <div className="container mt-4 createPost">
@@ -115,6 +75,7 @@ function CreatePost() {
           Submit
         </button>
       </Form>
+      {addPost && <p>{addPost.message}</p>}
     </div>
   );
 }

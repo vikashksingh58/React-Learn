@@ -33,14 +33,14 @@ const PostListProvider = ({children}) => {
         });
     }
 
-    const addInitialPosts = (posts) => {
-        // console.log(posts);
+    // const addInitialPosts = (posts) => {
+    //     // console.log(posts);
         
-        dispatchPostList({
-            type: "ADD_POSTS",
-            payload: {posts},
-        });
-    }
+    //     dispatchPostList({
+    //         type: "ADD_POSTS",
+    //         payload: {posts},
+    //     });
+    // }
 
     const deletePost = (id) => {
         dispatchPostList({
