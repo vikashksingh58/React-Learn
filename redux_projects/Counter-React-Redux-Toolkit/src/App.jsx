@@ -10,18 +10,24 @@ import PrivacyMessage from './components/PrivacyMessage';
 function App() {
   const privacy = useSelector(store => store.privacy)
   return (
-    <center className="px-4 py-5 my-5 text-center">
-      <Container>
-        <Header />
-        <div className="col-lg-12 mx-auto">
-            {privacy ? <PrivacyMessage /> : <DisplayCounter />}
-              
-              <Controls />
+    <div className="container">
+      <div className='row mainCard'>
+        <div className='col-md-8 text-center'>
+          <Container>
+            <Header />
+            <div className='row'>
+              <div className="col-lg-12 mx-auto">
+                  {privacy ? <PrivacyMessage /> : <DisplayCounter />}
+                    
+                    <Controls />
+              </div>
+            </div>
+          </Container>
         </div>
-        
-      </Container>
+      </div>
       
-    </center>
+      
+    </div>
   )
 }
 

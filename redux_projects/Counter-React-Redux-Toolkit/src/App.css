@@ -5,3 +5,7 @@
 .Number-input {
   max-width: 125px;
 }
+
+.mainCard {
+  justify-content: center;
+}
