@@ -7,16 +7,19 @@ const app = express();
 
 app.use(bodyParser.json());
 
+const allowedOrigin = "https://cautious-journey-wgxwgjggggjh66v-5173.app.github.dev";
+
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  
+  if (req.method === "OPTIONS") return res.sendStatus(200);
   next();
 });
 
 app.get('/items', async (req, res) => {
   const storedItems = await getStoredItems();
-  // await new Promise((resolve, reject) => setTimeout(() => resolve(), 4000));
   res.json({ items: storedItems });
 });
 
@@ -38,4 +41,6 @@ app.post('/items', async (req, res) => {
   res.status(201).json({ message: 'Stored new item.', item: newItem });
 });
 
-app.listen(8080);
+app.listen(8080, () => {
+  console.log('Server running on port 8080');
+});
