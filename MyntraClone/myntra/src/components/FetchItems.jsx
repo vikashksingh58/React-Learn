@@ -1,38 +1,44 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchStatusActions } from "../store/fetchStatusSlice";
+import { itemsActions } from "../store/itemsSlice";
 
 const FetchItems = () => {
     const fetchStatus = useSelector(store => store.fetchStatus);
 
     const dispatch = useDispatch();
+    
+    useEffect(() => {
+        if(fetchStatus.fetchDone) return;
 
-    // useEffect(() => {
-    //     if(fetchStatus.fetchDone) return;
+        const controller = new AbortController();
+        const signal = controller.signal;
 
-    //     const controller = new AbortController();
-    //     const signal = controller.signal;
+        dispatch(fetchStatusActions.markFetchingStarted());
 
-    //     dispatch(fetchStatusActions.markFetchingStarted());
+        fetch("http://localhost:8080/items", {signal})
+        .then((res) => res.json())
+        .then(({items})=>{
+            dispatch(itemsActions.addInitialItems(items[0]))
+            dispatch(fetchStatusActions.markFetchDone());
+            dispatch(fetchStatusActions.markFetchingFinished());
 
-    //     fetch("https://cautious-journey-wgxwgjggggjh66v-8080.app.github.dev/items", {signal})
-    //     .then((res) => res.json())
-    //     .then((data)=>{
-    //         console.log(data);
-    //         dispatch(fetchStatusActions.markFetchDone());
-    //         dispatch(fetchStatusActions.markFetchingFinished());
-    //         return () => {
-    //             controller.abort();
-    //         };
-    //     });
+        })
+        .catch((err) => {
+        if (err.name === "AbortError") {
+            console.log("Fetch aborted");
+        } else {
+            console.error("Fetch failed:", err);
+        }
+        });
 
-    // },[fetchStatus, dispatch]);
+    return () => controller.abort();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[fetchStatus]);
 
     return (
-        <div>
-            Fetch Done : {fetchStatus.fetchDone}
-            Currently Fetching : {fetchStatus.currentlyFetiching}
-        </div>
+        <>
+        </>
     )
 
 }
